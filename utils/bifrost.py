@@ -58,3 +58,45 @@ def call_with_fallback(
             last_err = e
             continue
     raise RuntimeError(f"All models failed. Last error: {last_err}")
+
+
+def call_parallel(
+    client: OpenAI,
+    models: list[str],
+    system: str,
+    user: str,
+    max_tokens: int = 3000,
+) -> list[tuple[str, str]]:
+    """Call multiple models in parallel. Returns (result, model_id) for successful calls only."""
+    import concurrent.futures
+
+    def _call_one(model: str) -> tuple[str, str]:
+        result = call(client, model, system, user, max_tokens)
+        return result, model
+
+    results = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=len(models)) as executor:
+        futures = {executor.submit(_call_one, m): m for m in models}
+        for future in concurrent.futures.as_completed(futures):
+            try:
+                results.append(future.result())
+            except Exception:
+                pass
+    return results
+
+
+def parse_confidence_metadata(raw: str) -> tuple[str, dict]:
+    """Split CONFIDENCE_METADATA line from content. Returns (clean_content, metadata_dict)."""
+    import json
+    lines = raw.strip().split("\n")
+    metadata = {}
+    content_lines = []
+    for line in lines:
+        if line.startswith("CONFIDENCE_METADATA:"):
+            try:
+                metadata = json.loads(line[len("CONFIDENCE_METADATA:"):])
+            except json.JSONDecodeError:
+                pass
+        else:
+            content_lines.append(line)
+    return "\n".join(content_lines).strip(), metadata

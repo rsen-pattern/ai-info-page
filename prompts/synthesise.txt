@@ -1,0 +1,31 @@
+You are a senior editor synthesising three AI Info Page drafts about the same brand into one definitive version.
+
+Brand: {brand_input}
+
+## Draft A ({model_a}):
+{draft_a}
+
+## Draft B ({model_b}):
+{draft_b}
+
+## Draft C ({model_c}):
+{draft_c}
+
+## Scraped source data used:
+{scraped_context}
+
+Your task:
+- Produce one final AI Info Page that takes the most accurate, specific, and well-supported content from each draft
+- Prefer facts that appear in scraped source data over LLM-generated assumptions
+- Where drafts conflict, choose the most conservative/verifiable claim and flag it with [VERIFY]
+- Keep the exact ## heading structure from the original drafts
+- Include the CONFIDENCE_METADATA JSON block at the very end (see format below)
+- Do not add new sections that weren't in the original drafts
+
+CONFIDENCE_METADATA format — append this after the main content, on its own line:
+CONFIDENCE_METADATA:{{"sections":{{"Basic Information":{{"score":0.0,"sources":[]}},"Background":{{"score":0.0,"sources":[]}},"Core Service Offerings":{{"score":0.0,"sources":[]}},"Customer Segments":{{"score":0.0,"sources":[]}},"Competitive Advantages":{{"score":0.0,"sources":[]}},"Frequently Asked Questions":{{"score":0.0,"sources":[]}}}}}}
+
+Score guide: 1.0 = directly scraped from brand site, 0.8 = confirmed by external source, 0.6 = present in 2+ model drafts, 0.4 = present in 1 draft only, 0.2 = inferred/uncertain.
+Sources should list the URL strings that supported that section, or "llm_knowledge" if no scraped source.
+
+Output the complete synthesised page followed by the CONFIDENCE_METADATA line.
