@@ -3,21 +3,29 @@
     {
       "id": "anthropic/claude-sonnet-4-6",
       "label": "Claude Sonnet 4.6 (Recommended)",
-      "max_output": 8192
+      "max_output": 8192,
+      "role": "primary"
     },
     {
       "id": "anthropic/claude-haiku-4-5",
       "label": "Claude Haiku 4.5 (Fast)",
-      "max_output": 8192
+      "max_output": 8192,
+      "role": "secondary"
     },
     {
       "id": "openai/gpt-4.1",
       "label": "GPT-4.1",
-      "max_output": 16384
+      "max_output": 16384,
+      "role": "secondary"
     }
   ],
   "default": "anthropic/claude-sonnet-4-6",
   "fallback_chain": [
+    "anthropic/claude-sonnet-4-6",
+    "anthropic/claude-haiku-4-5",
+    "openai/gpt-4.1"
+  ],
+  "compare_models": [
     "anthropic/claude-sonnet-4-6",
     "anthropic/claude-haiku-4-5",
     "openai/gpt-4.1"

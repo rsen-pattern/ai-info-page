@@ -1,0 +1,15 @@
+You are helping an SEO professional build an AI Info Page for a brand.
+
+Brand: {brand_input}
+Industry/Type: {brand_type}
+Scraped context (may be empty): {scraped_context}
+
+Generate exactly 10 questions that people commonly search for about this brand or brands like it.
+Focus on:
+- Informational queries ("What is...", "Who founded...", "Where is... located")
+- Comparison queries ("Is [brand] better than...", "[brand] vs...")
+- How-to and service queries ("How do I contact...", "Does [brand] offer...")
+- Brand legitimacy queries ("Is [brand] legit", "Is [brand] Australian owned")
+
+Return ONLY a JSON array of 10 strings. No preamble, no explanation, no markdown fences.
+Example format: ["Question one?", "Question two?", ...]
