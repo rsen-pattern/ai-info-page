@@ -35,10 +35,10 @@ def build_user_prompt(brand_input: str, extra_context: str) -> str:
 with st.sidebar:
     st.title("⚙️ Settings")
     api_key_input = st.text_input(
-        "Bi Frost API Key",
+        "Bi Frost API Key (override)",
         type="password",
-        placeholder="Paste key or set BIFROST_API_KEY env var",
-        help="Leave blank if BIFROST_API_KEY is set in your environment or Streamlit secrets.",
+        placeholder="Using key from Streamlit secrets",
+        help="Leave blank to use the BIFROST_API_KEY from Streamlit secrets or environment. Enter a value here only to override it.",
     )
 
     models_cfg = load_models()
